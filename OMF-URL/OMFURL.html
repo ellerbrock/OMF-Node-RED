@@ -1,0 +1,56 @@
+<!--- 
+Copyright 2017 Derek Endres - OSIsoft, LLC
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+<http://www.apache.org/licenses/LICENSE-2.0>
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+--->
+
+<script type="text/x-red" data-template-name="osisoft-omf-url">
+    
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-config-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-url"><i class="icon-tag"></i> URL </label>
+        <input type="text" id="node-config-input-url" placeholder="localhost">
+    </div>
+	
+</script>
+
+<script type="text/x-red" data-help-name="omf-urlv2">
+	<p> Use this to set the url for the OMF messages.</p>
+	<h3>Details</h3>
+    <dl class="message-properties">
+        <dt class="optional">URL<span class="property-type">string</span></dt>
+    </dl>
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>url <span class="property-type">string</span></dt>
+    </dl>
+</script>
+
+
+<script type="text/javascript">
+	
+    RED.nodes.registerType('osisoft-omf-url',{
+        category: 'config',
+        color: '#C0DEED',
+        defaults: {
+            name: {value:""},
+			url: {value:""}
+		},
+        inputs:1,
+        outputs:1,
+        icon: "OSIsoft.png",
+        label: function() {
+            return this.name||"osisoft-omf-url";
+        },
+    });
+</script>

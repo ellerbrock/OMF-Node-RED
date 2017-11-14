@@ -1,0 +1,27 @@
+{
+  "name": "osisoft-omf-data",
+  "version": "1.0.0",
+  "description": "To OMF",
+  "main": "OMFData.js",
+  "dependencies": {
+    "mustache": "2.2.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Derek Endres",
+	"license": "Apache-2.0",
+	"keywords": [
+	"node-red",
+	"OSIsoft",
+	"OSI",
+	"PI",
+	"OCS",
+	"OMF"
+	],
+  "node-red" : {
+        "nodes": {
+            "osisoft-omf-data": "OMFData.js"
+        }
+    }
+}

@@ -1,0 +1,99 @@
+<!--- 
+Copyright 2017 Derek Endres - OSIsoft, LLC
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+<http://www.apache.org/licenses/LICENSE-2.0>
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+--->
+<script type="text/x-red" data-template-name="osisoft-omf-container-bridge">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-config-input-name" placeholder="Name">
+    </div>	
+	<div class="form-row">
+        <label for="node-config-input-containerid"><i class="icon-tag"></i> Container ID </label>
+        <input type="text" id="node-config-input-containerid" placeholder="containerid">
+    </div>
+	<div class="form-row">
+        <label for="node-config-input-typeid"><i class="icon-tag"></i> Type ID </label>
+        <input type="text" id="node-config-input-typeid" placeholder="type">
+    </div>
+	<!---<div class="form-row">
+        <label for="node-config-input-typedef"><i class="icon-tag"></i> Use Type from flow  </label>
+        <input type="text" id="node-input-typedef" placeholder="containerid">
+    </div>--->
+	<div class="form-row">
+        <label for="node-config-input-typeversion"><i class="icon-tag"></i> Type Version </label>
+        <input type="text" id="node-config-input-typeversion" placeholder="1.0.0">
+    </div>
+	<div class="form-row">
+        <label for="node-config-input-friendlyname"><i class="icon-tag"></i> Friendly Name</label>
+        <input type="text" id="node-config-input-friendlyname" placeholder="name">
+    </div>
+	<div class="form-row">
+        <label for="node-config-input-description"><i class="icon-tag"></i> Description</label>
+        <input type="text" id="node-config-input-description" placeholder="name">
+    </div>
+	<div class="form-row">
+        <label for="node-config-input-tags"><i class="icon-tag"></i> Tags </label>
+        <input type="text" id="node-config-input-tags" placeholder="[]">
+    </div>
+	<div class="form-row">
+        <label for="node-config-input-metadata"><i class="icon-tag"></i> MetaData </label>
+        <input type="text" id="node-config-input-metadata" placeholder="{}">
+    </div>
+
+</script>
+
+<script type="text/x-red" data-help-name="osisoft-omf-container-bridge">
+	<p> Use this to create a container for the OMF messages.</p>
+	<h3>Details</h3>
+    <dl class="message-properties">
+        <dt class="optional">Container ID<span class="property-type">string</span></dt>
+        <dt class="optional">Type ID<span class="property-type">string</span></dt>
+        <dd> This may be overwritten by the container def node </dd>
+        <dt class="optional">Type Version<span class="property-type">string</span></dt>
+        <dt class="optional">Friendly Name<span class="property-type">string</span></dt>
+        <dt class="optional">Description<span class="property-type">string</span></dt>
+        <dt class="optional">Tags<span class="property-type">string</span></dt>
+        <dt class="optional">MetaData<span class="property-type">string</span></dt>
+    </dl>
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>Properties <span class="property-type">object</span></dt>
+        <dd>All properties are on the object itself.</dd>
+    </dl>
+</script>
+
+
+<script type="text/javascript">
+    RED.nodes.registerType('osisoft-omf-container-bridge',{
+        category: 'config',
+        color: '#C0DEED',
+        defaults: {
+            name: {value:""},
+			
+            containerid: {value:""},
+            typeid: {value:""},
+		//	typedef: {type:"omf-type-bridgev2", required:false},
+            typeversion: {value:"1.0.0.0"},
+            friendlyname: {value:""},
+            description: {value:""},
+            tags: {value:""},
+            metadata: {value:""},
+			
+		},
+        inputs:1,
+        outputs:1,
+        icon: "OSIsoft.png",
+        label: function() {
+            return this.name||"osisoft-omf-container-bridge";
+        }	
+		
+    });
+</script>

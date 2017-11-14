@@ -1,0 +1,225 @@
+<!--- 
+Copyright 2017 Derek Endres - OSIsoft, LLC
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+<http://www.apache.org/licenses/LICENSE-2.0>
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+--->
+
+<script type="text/x-red" data-template-name="osisoft-omf-type-bridge">
+    
+    <div class="form-row">
+        <label for="node-config-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-config-input-name" placeholder="Name">
+    </div>
+    
+	
+    <div class="form-row">
+        <label for="node-config-input-typeid"><i class="icon-tag"></i> Type ID </label>
+        <input type="text" id="node-config-input-typeid" placeholder="id">
+    </div>	
+    <div class="form-row">
+        <label for="node-config-input-classification"><i class="icon-tag"></i> Classification </label>
+        <input type="text" id="node-config-input-classification" placeholder="localhost">
+    </div>	
+    <div class="form-row">
+        <label for="node-config-input-version"><i class="icon-tag"></i> Version </label>
+        <input type="text" id="node-config-input-version" placeholder="localhost">
+    </div>	
+    <div class="form-row">
+        <label for="node-config-input-typename"><i class="icon-tag"></i> Friendly Name </label>
+        <input type="text" id="node-config-input-typename" placeholder="localhost">
+    </div>	
+    <div class="form-row">
+        <label for="node-config-input-description"><i class="icon-tag"></i> Description </label>
+        <input type="text" id="node-config-input-description" placeholder="localhost">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-tags"><i class="icon-tag"></i> Tags </label>
+        <input type="text" id="node-config-input-tags" placeholder="localhost">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-metadata"><i class="icon-tag"></i> Metadata </label>
+        <input type="text" id="node-config-input-metadata" placeholder="localhost">
+    </div>
+	
+	<div class="form-row">
+        <input type="checkbox" id="node-config-input-usetls" style="display: inline-block; width: auto; vertical-align: top;">
+        <label for="node-input-usetls" style="width: auto" data-i18n="httpin.use-tls">Add _time</label>       
+    </div>
+	<div class="form-row" onclick = "updater()" >
+        <label for="node-input-props"><i class="fa fa-tasks"></i> Properties <span data-i18n="common.label.topic"></span></label>
+        <input type="text" style="width:100px;" id="node-input-props" value="0" >
+		<button type ="button" id = "RButton" style = "background-color: #FFFFFF; color: grey;
+			border: solid; border-width: 1px; border-color: #d3d3d3; border-radius: 5px; padding: 5px 10px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;cursor: pointer;box-shadow:
+			inset 0 0 1px 0 rgba(255,255,255,.4),
+			inset 0 0 1px 0 rgba(0,0,0,.4),
+			inset 0 0 1px 2px rgba(0,0,0,.05),
+			2px 2px 4px 0 rgba(0,0,0,.25);">
+			Set Number of Properties </button>
+    </div>
+	<div class = "wrap" id="thisDiv">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="osisoft-omf-type-bridge">
+	<h3>Details</h3>
+    <dl class="message-properties">
+        <dt class="optional">Type ID<span class="property-type">string</span></dt>
+        <dt class="optional">Classification<span class="property-type">string</span></dt>
+        <dt class="optional">Version<span class="property-type">string</span></dt>
+        <dt class="optional">Friendly Name<span class="property-type">string</span></dt>
+        <dt class="optional">Description<span class="property-type">string</span></dt>
+        <dt class="optional">Tags<span class="property-type">string</span></dt>
+        <dt class="optional">MetaData<span class="property-type">string</span></dt>	
+        <dt class="optional">Add _time <span class="property-type">object</span></dt>
+        <dd>Adds a property to below that is named _time, is type string, format time and is set to the index.</dd>
+        <dt class="optional">Properties <span class="property-type">object</span></dt>
+        <dd>Can change the number of properties.  The first column is the name and the second is the type.  Currently only number and string is support and there is no built-in way to set any other other attributes on the property.</dd>
+    </dl>
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>Properties <span class="property-type">object</span></dt>
+        <dd>All properties are on the object itself.</dd>
+    </dl>
+</script>
+
+
+<script type="text/javascript">
+	
+    RED.nodes.registerType('osisoft-omf-type-bridge',{
+        category: 'config',
+        color: '#C0DEED',
+        defaults: {		
+			name: {value:""},
+			
+			typeid: {value:""},
+			classification: {value:"dynamic"},
+			version: {value:"1.0.0.0"},
+			typename: {value:""},
+			description: {value:""},
+			tags: {value:""},
+			metadata: {value:""},
+			
+            properties: {value:""},
+			Switch: {value: 0},
+			Save: {value: 0},
+		},
+        inputs:1,
+        outputs:1,
+        icon: "OSIsoft.png",
+        label: function() {
+            return this.name||"osisoft-omf-type-bridge";
+        },
+		
+		oneditprepare: function() {
+			var that = this;
+			 $("#node-input-props").attr("value", that.Save);
+		
+			if (this.Switch == 1) {
+				$("#node-config-input-usetls").prop("checked", true);
+			} else {
+				$("#node-config-input-usetls").prop("checked", false);
+			}
+			
+			 var i =1;
+			 //Get saved type properties
+			for(var prop in that.properties)
+			{
+				
+				if(this.properties[prop].type === "number")
+				{
+					$("#thisDiv").append("<div class =\"form-row\"> <label for=\"node-input-property-" + i +"\" id=\"node-input-property-" + i +"\"><i class=\"fa fa-edit\"></i> Property "+i+"<span data-i18n=\"template.label.property\"></span></label> <input type=\"text\" id=\"node-input-property" + i +"\" style=\"width:175px;\"> <input type=\"hidden\" id=\"node-input-fieldType\"> <select style=\"width:100px;\" id=\"node-input-property_" + i +"\"> <option value=\"string\">String</option> <option value=\"number\" selected>Number</option> </select> </div>");
+				}
+				else if(this.properties[prop].type === "string")
+				{
+					$("#thisDiv").append("<div class =\"form-row\"> <label for=\"node-input-property-" + i +"\" id=\"node-input-property-" + i +"\"><i class=\"fa fa-edit\"></i> Property "+i+"<span data-i18n=\"template.label.property\"></span></label> <input type=\"text\" id=\"node-input-property" + i +"\" style=\"width:175px;\"> <input type=\"hidden\" id=\"node-input-fieldType\"> <select style=\"width:100px;\" id=\"node-input-property_" + i +"\"> <option value=\"string\" selected>String</option> <option value=\"number\">Number</option> </select> </div>");
+				}
+				else
+				{
+					alert("bad request");
+				}
+				
+				$("#node-input-property" + (i)).attr("value", this.properties[prop].propertyname);
+				i++;
+				
+			}
+			//Set Properties Button
+			$("#RButton").click(function(){
+			//	alert("hi")
+				var valz = $("#node-input-props").val();
+				var num = parseInt(valz);
+				$("#node-input-props").attr("value", num);
+				
+				//Remove old property count
+				for(var i = 1; i <= num; i++)
+				{
+					$("#node-input-property" + i).remove();
+					$("#node-input-property_" + i).remove();
+					$("#node-input-property-" + i).remove();
+					$("#node-input-property" + i).remove();
+					$("#node-input-property_" + i).remove();
+					$("#node-input-property-" + i).remove();
+					
+				}
+				for(var i = 1; i <= that.Save; i++)
+				{
+					$("#node-input-property" + i).remove();
+					$("#node-input-property_" + i).remove();
+					$("#node-input-property-" + i).remove();
+					$("#node-input-property" + i).remove();
+					$("#node-input-property_" + i).remove();
+					$("#node-input-property-" + i).remove();
+					
+				}
+				
+				//Set new property count
+				for(var i = 1; i <= num; i++)
+				{
+					$("#thisDiv").append("<div class =\"form-row\"> <label for=\"node-input-property-" + i +"\" id=\"node-input-property-" + i +"\"><i class=\"fa fa-edit\"></i> Property "+i+"<span data-i18n=\"template.label.property\"></span></label> <input type=\"text\" id=\"node-input-property" + i +"\" placeholder=\"Value\" style=\"width:175px;\"> <input type=\"hidden\" id=\"node-input-fieldType\"> <select style=\"width:100px;\" id=\"node-input-property_" + i +"\"> <option value=\"string\">String</option> <option value=\"number\">Number</option> </select> </div>");
+				}
+				that.Save = num;
+				
+			});
+		
+		
+		},
+		
+		oneditsave: function() {
+			this.Save = $("#node-input-props").val();
+			
+			if ($("#node-config-input-usetls").is(':checked')) {	
+					this.Switch = 1;					
+                } 
+			else {
+				this.Switch = 0;                
+				}
+			
+			
+			var arr = {};
+			//Save property values
+			for(var i = 0; i < $("#node-input-props").val(); i++)
+			{
+				var name =$("#node-input-property" + (i+1)).val(); 
+				var struct = {propertyname:name , type: $("#node-input-property_" + (i+1)).val()};
+				arr[name] = struct;
+				
+			}
+		//	alert(arr["_time"]);
+		//	alert(arr["_time"] == undefined);
+			if(this.Switch == 1 && arr["_time"] == undefined)			{
+				arr["_time"] = {propertyname:"_time", type: "string", format: "date-time", isindex:true};
+				this.Save++;
+			}
+			else if (arr["_time"] != undefined){
+				arr["_time"] = {propertyname:"_time", type: "string", format: "date-time", isindex:true};			
+			}
+			this.properties = arr;
+			}
+    });
+</script>

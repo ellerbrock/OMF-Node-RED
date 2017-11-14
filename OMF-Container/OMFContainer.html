@@ -1,0 +1,82 @@
+<!--- 
+Copyright 2017 Derek Endres - OSIsoft, LLC
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+<http://www.apache.org/licenses/LICENSE-2.0>
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+--->
+<script type="text/x-red" data-template-name="osisoft-omf-container">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-urlconfig"><i class="icon-tag"></i> URL Configuration</label>
+        <input type="text" id="node-input-urlconfig" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-headersconfig"><i class="icon-tag"></i> Headers Configuration</label>
+        <input type="text" id="node-input-headersconfig" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-containerconfig"><i class="icon-tag"></i> Container Configuration</label>
+        <input type="text" id="node-input-containerconfig" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-typeconfig"><i class="icon-tag"></i> Type Configuration for Container</label>
+        <input type="text" id="node-input-typeconfig" placeholder="Name">
+    </div>
+    
+</script>
+
+<script type="text/x-red" data-help-name="osisoft-omf-container">
+    <p>A node that helps organize OMF containers.  All fields are mustachable.</p>
+	
+	<h3>General Details</h3>
+    <dl class="message-properties">
+        <dt class="optional">URL Configuration <span class="property-type">object</span></dt>
+        <dd>If configured in this node, the message.url field is set to this value.</dd>
+        <dt class="optional">Headers Configuration <span class="property-type">object</span></dt>
+        <dd>If configured in this node, message.headers field is set to this value.</dd>
+        <dt class="optional">Conatainer Configuration <span class="property-type">object</span></dt>
+        <dd>If configured in this node, the contianer is added to the payload if it is containers or an array of just this container is set.</dd>
+        <dt class="optional">Type Configuration for Container <span class="property-type">object</span></dt>
+        <dd>If configured in this node, the container's type information is overwritten with this configuration.</dd>
+    </dl>		
+	<h3>Output</h3>
+    <dl class="message-properties">
+        <dt class="optional">url<span class="property-type">string</span></dt>
+        <dd>The url to send to.  If not specifed this is unmodified</dd>
+        <dt class="optional">headers<span class="property-type">object</span></dt>
+        <dd>The headers to send with.  If not specifed this is unmodified</dd>		
+        <dt>payload<span class="property-type">object</span></dt>
+        <dd>OMF Container Array compliant object.</dd>
+    </dl>
+</script>
+
+
+<script type="text/javascript">
+    RED.nodes.registerType('osisoft-omf-container',{
+        category: 'OSIsoft',
+        color: '#C0DEED',
+        defaults: {
+			name: {value:""},
+			containerconfig: {type:"osisoft-omf-container-bridge", required:false},
+			headersconfig: {type:"osisoft-omf-headers-bridge", required:false},
+			urlconfig: {type:"osisoft-omf-url", required:false},
+			typeconfig: {type:"osisoft-omf-type-bridge", required:false},
+		},
+        inputs:1,
+        outputs:1,
+        icon: "OSIsoft.png",
+        label: function() {
+            return this.name||"osisoft-omf-container";
+        },
+		
+    });
+</script>

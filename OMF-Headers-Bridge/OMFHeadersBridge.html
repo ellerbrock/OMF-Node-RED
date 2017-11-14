@@ -1,0 +1,93 @@
+<!--- 
+Copyright 2017 Derek Endres - OSIsoft, LLC
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+<http://www.apache.org/licenses/LICENSE-2.0>
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+--->
+
+<script type="text/x-red" data-template-name="osisoft-omf-headers-bridge">
+    
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-config-input-name" placeholder="Name">
+    </div>
+	 <div class="form-row">
+        <label for="node-input-producertoken"><i class="fa fa-edit"></i> Producer Token</label>
+        <input type="text" id="node-config-input-producertoken" placeholder="Token">
+    </div>
+	
+	 <!--<div class="form-row">
+        <label for="node-input-messagetype"><i class="fa fa-edit"></i> Message Type</label>
+        <input type="text" id="node-config-input-messagetype" placeholder="type">
+    </div>-->
+	 <div class="form-row">
+        <label for="node-input-messageformat"><i class="fa fa-edit"></i> Message Format</label>
+        <input type="text" id="node-config-input-messageformat" placeholder="JSON">
+    </div>
+	 <div class="form-row">
+        <label for="node-input-omfversion"><i class="fa fa-edit"></i> OMF Version</label>
+        <input type="text" id="node-config-input-omfversion" placeholder="1.0.0">
+    </div>
+	 <div class="form-row">
+        <label for="node-input-action"><i class="fa fa-edit"></i> Action</label>
+        <input type="text" id="node-config-input-action" placeholder="create">
+    </div>
+	 <div class="form-row">
+        <label for="node-input-compression"><i class="fa fa-edit"></i> Compression</label>
+        <input type="text" id="node-config-input-compression" placeholder="gzip">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="osisoft-omf-headers-bridge">
+	<p> Use this to set the headers for the OMF messages.</p>
+	<h3>Details</h3>
+    <dl class="message-properties">
+        <dt class="optional">Producer token<span class="property-type">string</span></dt>
+        <dd>Saves this as the url</dd>
+        <dt class="optional">Message Format<span class="property-type">string</span></dt>
+        <dd>only json accepted currently... </dd>
+        <dt class="optional">OMF Version<span class="property-type">string</span></dt>
+        <dd>currently 1.0 only accepted or blank </dd>
+        <dt class="optional">Action<span class="property-type">string</span></dt>
+        <dd>create, update, delete</dd>
+        <dt class="optional">Compression<span class="property-type">string</span></dt>
+        <dd>blank or gzip accepted</dd>
+    </dl>
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>headers <span class="property-type">object</span></dt>
+        <dd>The headers as an object.</dd>
+    </dl>
+</script>
+
+
+<script type="text/javascript">
+	
+    RED.nodes.registerType('osisoft-omf-headers-bridge',{
+        category: 'config',
+        color: '#C0DEED',
+        defaults: {
+			name: {value:""},
+			producertoken: {value:""},
+			messagetype: {value:""},
+			messageformat: {value:"json"},
+			omfversion: {value:"1.0"},
+			action: {value:"create"},
+			compression: {value:""},
+			
+			
+		},
+        inputs:1,
+        outputs:1,
+        icon: "OSIsoft.png",
+        label: function() {
+            return this.name||"osisoft-omf-headers-bridge";
+        }		
+    });
+</script>

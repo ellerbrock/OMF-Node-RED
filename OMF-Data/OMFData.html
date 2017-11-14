@@ -1,0 +1,291 @@
+<!--- 
+Copyright 2017 Derek Endres - OSIsoft, LLC
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+<http://www.apache.org/licenses/LICENSE-2.0>
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+--->
+<script type="text/x-red" data-template-name="osisoft-omf-data">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-urlconfig"><i class="icon-tag"></i> URL Configuration</label>
+        <input type="text" id="node-input-urlconfig" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-headersconfig"><i class="icon-tag"></i> Headers Configuration</label>
+        <input type="text" id="node-input-headersconfig" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-containerconfig"><i class="icon-tag"></i> Container Configuration</label>
+        <input type="text" id="node-input-containerconfig" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-typeconfig"><i class="icon-tag"></i> Type Configuration for Container</label>
+        <input type="text" id="node-input-typeconfig" placeholder="Name">
+    </div>
+	
+	<hr>
+	
+	
+	<div class="form-row">
+        <label for="node-input-typeid"><i class="fa fa-tasks"></i> Type ID <span data-i18n="common.label.topic"></span></label>
+        <input type="text" id="node-input-typeid" placeholder="Type">
+    </div>
+	<div class="form-row">
+        <label for="node-input-containerid"><i class="fa fa-tasks"></i> Container ID <span data-i18n="common.label.topic"></span></label>
+        <input type="text" id="node-input-containerid" placeholder="Container">
+    </div>
+	<div class="form-row">
+        <label for="node-input-typeversion"><i class="fa fa-tasks"></i> Version <span data-i18n="common.label.topic"></span></label>
+        <input type="text" id="node-input-typeversion" placeholder="1.0.0">
+    </div>	
+	
+    <div class="form-row">
+        <label for="node-input-valuearray"><i class="icon-tag"></i> Value Array</label>
+        <input type="text" id="node-input-valuearray" placeholder="[]">
+    </div>
+	
+	<hr>
+	
+	<div class="form-row" >
+        <label for="node-input-props"><i class="fa fa-tasks"></i> Properties <span data-i18n="common.label.topic"></span></label>
+        <input type="text" style="width:100px;" id="node-input-props" value="0" >
+		<button type ="button" id = "RButton" style = "background-color: #FFFFFF; color: grey;
+			border: solid; border-width: 1px; border-color: #d3d3d3; border-radius: 5px; padding: 5px 10px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;cursor: pointer;box-shadow:
+			inset 0 0 1px 0 rgba(255,255,255,.4),
+			inset 0 0 1px 0 rgba(0,0,0,.4),
+			inset 0 0 1px 2px rgba(0,0,0,.05),
+			2px 2px 4px 0 rgba(0,0,0,.25);">
+			Set Number of Properties </button>
+    </div>
+		
+		<button type ="button" id = "RButton2" style = "background-color: #FFFFFF; color: grey;
+			border: solid; border-width: 1px; border-color: #d3d3d3; border-radius: 5px; padding: 5px 10px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;cursor: pointer;box-shadow:
+			inset 0 0 1px 0 rgba(255,255,255,.4),
+			inset 0 0 1px 0 rgba(0,0,0,.4),
+			inset 0 0 1px 2px rgba(0,0,0,.05),
+			2px 2px 4px 0 rgba(0,0,0,.25);">
+			Load properties from Type </button>
+	
+	<div class = "wrap" id="thisDiv">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="osisoft-omf-data">
+    <p>A node that helps organize OMF data.  All fields are mustachable.</p>
+	
+	<h3>General Details</h3>
+    <dl class="message-properties">
+        <dt class="optional">URL Configuration <span class="property-type">object</span></dt>
+        <dd>If configured in this node, the message.url field is set to this value.</dd>
+        <dt class="optional">Headers Configuration <span class="property-type">object</span></dt>
+        <dd>If configured in this node, message.headers field is set to this value.</dd>
+        <dt class="optional">Conatainer Configuration <span class="property-type">object</span></dt>
+        <dd>If configured in this node, the data's containerid is set to this and typeid and typeversion are not set.</dd>
+        <dt class="optional">Type Configuration for Container <span class="property-type">object</span></dt>
+        <dd>If configured in this node, the data's propertiest can be set from this Type.  If container isn't set the Type ID and version can be used.</dd>
+    </dl>		
+	<h3>Details</h3>
+    <dl class="message-properties">
+        <dt class="optional">Type ID<span class="property-type">object</span></dt>
+        <dd>Used as the data type id if Container Configuration and Type Configuration for Container are not set.</dd>
+        <dt class="optional">Container ID<span class="property-type">object</span></dt>
+        <dd>Used as the data container id if Container Configuration is not set.</dd>		
+        <dt class="optional">Version<span class="property-type">object</span></dt>
+        <dd>Used as the data type version if Container Configuration and Type Configuration for Container are not set.</dd>
+        <dt class="optional">Value Array<span class="property-type">object</span></dt>
+        <dd>Use this array for values as is.  Note this needs to be a JSON string representation of the array</dd>
+        <dt class="optional">Properties<span class="property-type">object</span></dt>
+        <dd>Manually configure the properties needed in the value array.  Press Set number of Properties to update fields below to the correct number of fields.  Press Load properties from Type if you have a Type set in TypeConfiguration for Container and you want to autopopulate what will be needed.</dd>
+        <dt class="optional">Property *<span class="property-type">object</span></dt>
+        <dd>The first column is the property name.  If you loaded this from the type then don't modify this...  The second column is where the values live in an array.  If the values are in an object that is an array, then you can specify the property with {~[property]~}.  Such that a lookup of {{{payload}}}{~Temperature~} goes to the msg.payload array and loops over the various objects in the array and assigns the property Temperature to the specified property name.  Note only 1 {~~} allowed in a defintion.</dd>
+    </dl>
+	<h3>Output</h3>
+    <dl class="message-properties">
+        <dt class="optional">url<span class="property-type">string</span></dt>
+        <dd>The url to send to.  If not specifed this is unmodified</dd>
+        <dt class="optional">headers<span class="property-type">object</span></dt>
+        <dd>The headers to send with.  If not specifed this is unmodified</dd>		
+        <dt>payload<span class="property-type">object</span></dt>
+        <dd>OMF Data Array compliant object.</dd>
+    </dl>
+</script>
+
+
+<script type="text/javascript">
+    RED.nodes.registerType('osisoft-omf-data',{
+        category: 'OSIsoft',
+        color: '#C0DEED',
+        defaults: {
+			name: {value:""},
+			
+			containerconfig: {type:"osisoft-omf-container-bridge", required:false},
+			headersconfig: {type:"osisoft-omf-headers-bridge", required:false},
+			urlconfig: {type:"osisoft-omf-url", required:false},
+			typeconfig: {type:"osisoft-omf-type-bridge", required:false},
+			
+			valuearray: {value:""},
+			props: {value:""},			
+            properties: {value:""},
+			
+            typeid: {value:""},
+            containerid: {value:""},
+            typeversion: {value:""}
+		},
+        inputs:1,
+        outputs:1,
+        icon: "OSIsoft.png",
+        label: function() {			
+            return this.name||"osisoft-omf-data";
+        },
+
+		oneditprepare: function() {
+			var that = this;
+					
+			 var i =1;
+			 //Get saved type properties
+			for(var prop in that.properties)
+			{
+			
+					$("#thisDiv").append("<div class =\"form-row\"> <label for=\"node-input-property-" + i +"\" id=\"node-input-property-" + i +"\"><i class=\"fa fa-edit\"></i> Property "+i+"<span data-i18n=\"template.label.property\"></span></label> <input type=\"text\" id=\"node-input-property" + i +"\" style=\"width:175px;\"> <input type=\"hidden\" id=\"node-input-fieldType\"> <input style=\"width:100px;\" id=\"node-input-property_" + i +"\"> </div>");
+
+				$("#node-input-property" + (i)).attr("value", this.properties[prop].propertyname);
+				$("#node-input-property_" + (i)).attr("value", this.properties[prop].value);
+				i++;
+				
+			}
+			//Set Properties Button
+			$("#RButton").click(function(){
+			
+			//	alert("hi")
+				var valz = $("#node-input-props").val();
+				var num = parseInt(valz);
+				$("#node-input-props").attr("value", num);
+				
+				//Remove old property count
+				for(var i = 1; i <= num; i++)
+				{
+					$("#node-input-property" + i).remove();
+					$("#node-input-property_" + i).remove();
+					$("#node-input-property-" + i).remove();
+					$("#node-input-property" + i).remove();
+					$("#node-input-property_" + i).remove();
+					$("#node-input-property-" + i).remove();
+					
+				}
+				for(var i = 1; i <= that.props; i++)
+				{
+					$("#node-input-property" + i).remove();
+					$("#node-input-property_" + i).remove();
+					$("#node-input-property-" + i).remove();
+					$("#node-input-property" + i).remove();
+					$("#node-input-property_" + i).remove();
+					$("#node-input-property-" + i).remove();
+					
+				}
+				
+				//Set new property count
+				for(var i = 1; i <= num; i++)
+				{
+					$("#thisDiv").append("<div class =\"form-row\"> <label for=\"node-input-property-" + i +"\" id=\"node-input-property-" + i +"\"><i class=\"fa fa-edit\"></i> Property "+i+"<span data-i18n=\"template.label.property\"></span></label> <input type=\"text\" id=\"node-input-property" + i +"\" placeholder=\"Value\" style=\"width:175px;\"> <input type=\"hidden\" id=\"node-input-fieldType\"> <input style=\"width:100px;\" id=\"node-input-property_" + i +"\"></div>");
+				}
+				that.props = num;
+				
+			});
+			
+			//Set Properties Button
+			$("#RButton2").click(function(){
+							
+				var valz = $("#node-input-props").val();
+				var num = parseInt(valz);
+				$("#node-input-props").attr("value", num);
+				
+				//Remove old property count
+				for(var i = 1; i <= num; i++)
+				{
+					$("#node-input-property" + i).remove();
+					$("#node-input-property_" + i).remove();
+					$("#node-input-property-" + i).remove();
+					$("#node-input-property" + i).remove();
+					$("#node-input-property_" + i).remove();
+					$("#node-input-property-" + i).remove();
+					
+				}
+				//Remove old property count
+				for(var i = 1; i <= Object.keys(that.properties).length; i++)
+				{
+					$("#node-input-property" + i).remove();
+					$("#node-input-property_" + i).remove();
+					$("#node-input-property-" + i).remove();
+					$("#node-input-property" + i).remove();
+					$("#node-input-property_" + i).remove();
+					$("#node-input-property-" + i).remove();
+					
+				}
+			// 	alert("hi")
+			// 	alert(RED.nodes);
+				
+				for(var p in RED.nodes){
+		//	 	alert(p + ":" + RED.nodes[p])
+				}
+				
+				//alert(that.typeconfig)
+				that.typeconfig = $("#node-input-typeconfig").val();
+				//alert(that.typeconfig)
+				var z = RED.nodes.node(that.typeconfig);
+			//	alert(z)
+			//	alert(z.typeid)
+			//	alert(z.properties)
+			that.properties = z.properties;
+			 var i =1;
+			for(var prop in that.properties)
+			{
+			
+					$("#thisDiv").append("<div class =\"form-row\"> <label for=\"node-input-property-" + i +"\" id=\"node-input-property-" + i +"\"><i class=\"fa fa-edit\"></i> Property "+i+"<span data-i18n=\"template.label.property\"></span></label> <input type=\"text\" id=\"node-input-property" + i +"\" style=\"width:175px;\"> <input type=\"hidden\" id=\"node-input-fieldType\"> <input style=\"width:100px;\" id=\"node-input-property_" + i +"\"> </div>");
+
+				$("#node-input-property" + (i)).attr("value", that.properties[prop].propertyname);
+				$("#node-input-property_" + (i)).attr("value", that.properties[prop].value);
+				i++;
+				
+			}
+			i--;
+				that.props = i;
+				$("#node-input-props").val(that.props);
+//				$("#node-input-props").hide().fadeIn('fast');
+				
+				
+			//	alert(that.props);
+			//	alert($("#node-input-props").val());
+			//	$("#node-input-props").attr("value", i);
+			
+			
+			});
+			
+		},
+
+		oneditsave: function() {				
+		//	alert("hi");
+			//	alert(that.props);
+			var arr = {};
+			//Save property values
+			for(var i = 0; i < $("#node-input-props").val(); i++)
+			{
+				var name =$("#node-input-property" + (i+1)).val(); 
+				var struct = {propertyname:name , value: $("#node-input-property_" + (i+1)).val()};
+				arr[name] = struct;
+				
+			}
+			
+			this.properties = arr;		
+			
+		}		
+    });
+</script>

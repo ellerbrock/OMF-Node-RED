@@ -1,0 +1,33 @@
+{
+    "name": "node-red-osisoft-omf",
+    "version": "1.0.0",
+    "description": "Helps create node-red omf messages for OCS or connector relay",
+    "main": "OMF-URL/OMFURL.js",
+	  "dependencies": {
+		"mustache": "2.2.1"
+	  },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Derek Endres",
+	"license": "Apache-2.0",
+	"keywords": [
+	"node-red",
+	"OSIsoft",
+	"OSI",
+	"PI",
+	"OCS",
+	"OMF"
+	],
+    "node-red": {
+        "nodes": {
+            "osisoft-omf-url": "OMF-URL/OMFURL.js",	
+            "osisoft-omf-type-bridge": "OMF-Type-Bridge/OMFTypeBridge.js",	
+            "osisoft-omf-type": "OMF-Type/OMFType.js",	
+            "osisoft-omf-headers-bridge": "OMF-Headers-Bridge/OMFHeadersBridge.js",
+            "osisoft-omf-data": "OMF-Data/OMFData.js",
+            "osisoft-omf-container-bridge": "OMF-Container-Bridge/OMFContainerBridge.js",
+            "osisoft-omf-container": "OMF-Container/OMFContainer.js"
+		}
+    }
+}
