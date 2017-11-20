@@ -19,7 +19,7 @@ It is possible to use a property from the flow context or global context. Just u
 
 Note: By default, mustache will escape any HTML entities in the values it substitutes. To prevent this, use {{{triple}}} braces.
 
-The added mustache-ability is only currently on OMF Data value fields.  This allows you to get loop over an array of objects and get values out of it.  You can specify the object's property with {~[property]~}. Such that a lookup of {{{payload}}}{~Temperature~} goes to the msg.payload array and loops over the various objects in the array and assigns the property Temperature to the specified property name. Note only 1 {~~} allowed in a field.
+The added mustache-ability is only currently on OMF Data value fields.  This allows you to get loop over an array of objects and get values out of it.  You can specify the object's property with {\~[property]\~}. Such that a lookup of "{{{payload}}}{\~Temperature\~}" goes to the msg.payload array and loops over the various objects in the array and assigns the property Temperature to the specified property name. Note only 1 {\~[property]\~} allowed in a field.
 
 
 ## Tutorial
