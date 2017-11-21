@@ -1,0 +1,528 @@
+[
+    {
+        "id": "efa426f2.90d8e8",
+        "type": "tab",
+        "label": "watson flow",
+        "disabled": true,
+        "info": ""
+    },
+    {
+        "id": "4ffa1c71.60a9f4",
+        "type": "visual-recognition-v3",
+        "z": "efa426f2.90d8e8",
+        "name": "use only a couple times...",
+        "apikey": "__PWRD__",
+        "image-feature": "classifyImage",
+        "lang": "en",
+        "x": 929,
+        "y": 100,
+        "wires": [
+            [
+                "9b241c65.5d2d8"
+            ]
+        ]
+    },
+    {
+        "id": "83389953.b85618",
+        "type": "change",
+        "z": "efa426f2.90d8e8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "filename",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 368,
+        "y": 135,
+        "wires": [
+            [
+                "d80ab644.fd0b18"
+            ]
+        ]
+    },
+    {
+        "id": "f7073648.73d428",
+        "type": "watch",
+        "z": "efa426f2.90d8e8",
+        "name": "",
+        "files": "e:\\temp",
+        "recursive": "",
+        "x": 55,
+        "y": 110,
+        "wires": [
+            [
+                "1c520f2a.7643b1"
+            ]
+        ]
+    },
+    {
+        "id": "a78dcd63.591b3",
+        "type": "delay",
+        "z": "efa426f2.90d8e8",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "2",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 413,
+        "y": 74,
+        "wires": [
+            [
+                "83389953.b85618"
+            ]
+        ]
+    },
+    {
+        "id": "896bd1a7.7033",
+        "type": "osisoft-omf-type",
+        "z": "efa426f2.90d8e8",
+        "name": "",
+        "typconfig": "46e13680.3c78b8",
+        "headersconfig": "42faf173.a8c46",
+        "urlconfig": "1bb9adb5.e565d2",
+        "x": 177,
+        "y": 404,
+        "wires": [
+            [
+                "8cb97b81.da71d8"
+            ]
+        ]
+    },
+    {
+        "id": "4d4009dc.fed3e8",
+        "type": "osisoft-omf-container",
+        "z": "efa426f2.90d8e8",
+        "name": "",
+        "containerconfig": "7febf3e7.e6641c",
+        "headersconfig": "42faf173.a8c46",
+        "urlconfig": "1bb9adb5.e565d2",
+        "typeconfig": "46e13680.3c78b8",
+        "x": 179,
+        "y": 498,
+        "wires": [
+            [
+                "830a1cf6.52311"
+            ]
+        ]
+    },
+    {
+        "id": "8e436783.6eba28",
+        "type": "osisoft-omf-data",
+        "z": "efa426f2.90d8e8",
+        "name": "",
+        "containerconfig": "7febf3e7.e6641c",
+        "headersconfig": "42faf173.a8c46",
+        "urlconfig": "1bb9adb5.e565d2",
+        "typeconfig": "46e13680.3c78b8",
+        "valuearray": "",
+        "props": 2,
+        "properties": {
+            "score": {
+                "propertyname": "score",
+                "value": "{{payload0.score}}"
+            },
+            "_time": {
+                "propertyname": "_time",
+                "value": "{{_time}}"
+            }
+        },
+        "typeid": "",
+        "containerid": "{{payload0.class}}",
+        "typeversion": "",
+        "x": 153,
+        "y": 586,
+        "wires": [
+            [
+                "e7f25c19.0489"
+            ]
+        ]
+    },
+    {
+        "id": "8cb97b81.da71d8",
+        "type": "http request",
+        "z": "efa426f2.90d8e8",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "url": "",
+        "tls": "",
+        "x": 432,
+        "y": 409,
+        "wires": [
+            [
+                "4d4009dc.fed3e8"
+            ]
+        ]
+    },
+    {
+        "id": "830a1cf6.52311",
+        "type": "http request",
+        "z": "efa426f2.90d8e8",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "url": "",
+        "tls": "",
+        "x": 416,
+        "y": 498,
+        "wires": [
+            [
+                "8e436783.6eba28"
+            ]
+        ]
+    },
+    {
+        "id": "e7f25c19.0489",
+        "type": "http request",
+        "z": "efa426f2.90d8e8",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "url": "",
+        "tls": "",
+        "x": 429,
+        "y": 597,
+        "wires": [
+            [
+                "d21c337c.2cdfd"
+            ]
+        ]
+    },
+    {
+        "id": "9b241c65.5d2d8",
+        "type": "change",
+        "z": "efa426f2.90d8e8",
+        "name": "Enter URLs to payload",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload2",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "[\"url1\"]",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 195,
+        "y": 331,
+        "wires": [
+            [
+                "4adf0547.ae899c"
+            ]
+        ]
+    },
+    {
+        "id": "4adf0547.ae899c",
+        "type": "split",
+        "z": "efa426f2.90d8e8",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 395,
+        "y": 332,
+        "wires": [
+            [
+                "a56db9c8.7a1a48"
+            ]
+        ]
+    },
+    {
+        "id": "a56db9c8.7a1a48",
+        "type": "change",
+        "z": "efa426f2.90d8e8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "urlHolder",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "result.images[0].classifiers[0].classes",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 583,
+        "y": 331,
+        "wires": [
+            [
+                "c3fc4bfb.57e948"
+            ]
+        ]
+    },
+    {
+        "id": "1c520f2a.7643b1",
+        "type": "change",
+        "z": "efa426f2.90d8e8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "_time",
+                "pt": "msg",
+                "to": "$now()",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 243,
+        "y": 71,
+        "wires": [
+            [
+                "a78dcd63.591b3"
+            ]
+        ]
+    },
+    {
+        "id": "c3fc4bfb.57e948",
+        "type": "split",
+        "z": "efa426f2.90d8e8",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 815,
+        "y": 327,
+        "wires": [
+            [
+                "abcef60a.374568"
+            ]
+        ]
+    },
+    {
+        "id": "abcef60a.374568",
+        "type": "change",
+        "z": "efa426f2.90d8e8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload0",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1023,
+        "y": 329,
+        "wires": [
+            [
+                "896bd1a7.7033"
+            ]
+        ]
+    },
+    {
+        "id": "bc191c93.04fbc",
+        "type": "inject",
+        "z": "efa426f2.90d8e8",
+        "name": "a",
+        "topic": "",
+        "payload": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/LinuxCon_Europe_Linus_Torvalds_03.jpg/220px-LinuxCon_Europe_Linus_Torvalds_03.jpg",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 638,
+        "y": 38,
+        "wires": [
+            [
+                "967e3317.e5fba"
+            ]
+        ]
+    },
+    {
+        "id": "d21c337c.2cdfd",
+        "type": "join",
+        "z": "efa426f2.90d8e8",
+        "name": "",
+        "mode": "auto",
+        "build": "string",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": "false",
+        "timeout": "",
+        "count": "",
+        "x": 602,
+        "y": 592,
+        "wires": [
+            [
+                "9c37f6ee.733f58"
+            ]
+        ]
+    },
+    {
+        "id": "9c37f6ee.733f58",
+        "type": "join",
+        "z": "efa426f2.90d8e8",
+        "name": "",
+        "mode": "auto",
+        "build": "string",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": "false",
+        "timeout": "",
+        "count": "",
+        "x": 730,
+        "y": 599,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d80ab644.fd0b18",
+        "type": "file-buffer",
+        "z": "efa426f2.90d8e8",
+        "name": "",
+        "mode": "asBuffer",
+        "x": 528,
+        "y": 184,
+        "wires": [
+            [
+                "4ffa1c71.60a9f4"
+            ]
+        ]
+    },
+    {
+        "id": "967e3317.e5fba",
+        "type": "change",
+        "z": "efa426f2.90d8e8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "_time",
+                "pt": "msg",
+                "to": "$now()",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 824,
+        "y": 43,
+        "wires": [
+            [
+                "4ffa1c71.60a9f4"
+            ]
+        ]
+    },
+    {
+        "id": "46e13680.3c78b8",
+        "type": "osisoft-omf-type-bridge",
+        "z": "",
+        "name": "Watson Viz",
+        "typeid": "watsonviz",
+        "classification": "dynamic",
+        "version": "1.0.0.0",
+        "typename": "",
+        "description": "desc",
+        "tags": "",
+        "metadata": "",
+        "properties": {
+            "score": {
+                "propertyname": "score",
+                "type": "number"
+            },
+            "_time": {
+                "propertyname": "_time",
+                "type": "string",
+                "format": "date-time",
+                "isindex": true
+            }
+        },
+        "Switch": 1,
+        "Save": "2"
+    },
+    {
+        "id": "42faf173.a8c46",
+        "type": "osisoft-omf-headers-bridge",
+        "z": "",
+        "name": "watsonviz",
+        "producertoken": "myprodtoken",
+        "messageformat": "json",
+        "omfversion": "1.0",
+        "action": "create",
+        "compression": ""
+    },
+    {
+        "id": "1bb9adb5.e565d2",
+        "type": "osisoft-omf-url",
+        "z": "",
+        "name": "{{{urlHolder}}}",
+        "url": "{{{urlHolder}}}"
+    },
+    {
+        "id": "7febf3e7.e6641c",
+        "type": "osisoft-omf-container-bridge",
+        "z": "",
+        "name": "watsonviz",
+        "containerid": "{{payload0.class}}",
+        "typeid": "",
+        "typeversion": "1.0.0.0",
+        "friendlyname": "",
+        "description": "",
+        "tags": "",
+        "metadata": ""
+    }
+]
