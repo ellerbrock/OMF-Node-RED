@@ -1,6 +1,6 @@
 {
   "name": "osisoft-omf-data",
-  "version": "1.0.0",
+    "version": "0.0.1",
   "description": "To OMF",
   "main": "OMFData.js",
   "dependencies": {

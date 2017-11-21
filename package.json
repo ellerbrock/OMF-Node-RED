@@ -1,6 +1,6 @@
 {
     "name": "node-red-osisoft-omf",
-    "version": "1.0.0",
+    "version": "0.0.2",
     "description": "Helps create node-red omf messages for OCS or connector relay",
     "main": "OMF-URL/OMFURL.js",
 	  "dependencies": {
@@ -19,6 +19,10 @@
 	"OCS",
 	"OMF"
 	],
+	  "repository": {
+		"type": "git",
+		"url": "git+https://github.com/osisoft/OMF-Node-RED"
+	  },
     "node-red": {
         "nodes": {
             "osisoft-omf-url": "OMF-URL/OMFURL.js",	

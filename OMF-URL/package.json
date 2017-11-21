@@ -1,6 +1,6 @@
 {
     "name": "osisoft-omf-url",
-    "version": "1.0.0",
+    "version": "0.0.1",
     "description": "To Lowercase",
     "main": "OMFURLV2.js",
   "dependencies": {
