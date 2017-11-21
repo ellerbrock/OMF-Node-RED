@@ -1,6 +1,6 @@
 {
-    "name": "node-red-osisoft-omf",
-    "version": "0.0.2",
+    "name": "node-red-contrib-osisoft-omf",
+    "version": "0.0.1",
     "description": "Helps create node-red omf messages for OCS or connector relay",
     "main": "OMF-URL/OMFURL.js",
 	  "dependencies": {
