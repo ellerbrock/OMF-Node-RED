@@ -1,16 +1,18 @@
 # OMF-Node-RED
-This is a collection of nodes to use in [Node-RED](https://nodered.org/) to help generate an [OMF](http://omf-docs.readthedocs.io/en/latest/) message.  Node-RED is open-source, and is part of the [JS Foundation] (https://js.foundation/community/projects) and is a flow-based programming tool for IoT applications.     
+This is a collection of nodes to use in [Node-RED](https://nodered.org/) to help generate an [OMF](http://omf-docs.readthedocs.io/en/latest/) message.  Node-RED is open-source, and is part of the [JS Foundation](https://js.foundation/community/projects) and is a flow-based programming tool for IoT applications.     
 
 ## About
 This project is a Node-RED add-in.  This project has separate nodes for the OMF Type, Container, and Data messages.  It has a shared configuration node for the URL and Header information needed to send messages.  All the fields are [mustachable](http://mustache.github.io/mustache.5.html) and the data fields in Data have an added mustache-ability to let you access properties in an object array.    
 
 For example.  If you have a field with the value: {{payload.url}}.  And the node receives a message containing: 
+```javascript
 {
   date: "Monday"
   payload: {
     url: "www.osisoft.com",
   }
 }
+'''
 The resulting field will be set to: "www.osisoft.com".
 
 These nodes will not send the information but rather are to be connected to output nodes.
