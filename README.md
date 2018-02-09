@@ -12,7 +12,7 @@ For example.  If you have a field with the value: {{payload.url}}.  And the node
     url: "www.osisoft.com",
   }
 }
-'''
+```
 The resulting field will be set to: "www.osisoft.com".
 
 These nodes will not send the information but rather are to be connected to output nodes.
